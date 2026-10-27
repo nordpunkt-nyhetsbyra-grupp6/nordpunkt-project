@@ -1,0 +1,28 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/output.css" />
+    <title>Nordpunkt Nyhetsbyrå</title>
+</head>
+<body class="bg-white text-gray-900">
+    <header>
+        <!-- navigering kommer här -->
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        @RenderBody()
+    </main>
+
+    <footer class="border-t mt-12 py-6 text-center text-sm text-gray-500">
+        &copy; @DateTime.Now.Year Nordpunkt Nyhetsbyrå
+    </footer>
+</body>
+</html>
