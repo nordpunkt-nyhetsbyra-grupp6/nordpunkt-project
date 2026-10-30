@@ -4,8 +4,9 @@
 	Layout = "master.cshtml";
 
 	var articles = Model.Root()
-		.DescendantsOfType("article")
-		.OrderByDescending(articles => articles.Value<DateTime>("publishDate"))
+		.Descendants()
+		.OfType<Article>()
+		.OrderByDescending(article => article.PublishDate)
 		.ToList();
 
 	var latestArticle = articles.FirstOrDefault();
@@ -31,7 +32,7 @@
         <article>
             <a href="@article.Url()">
                 @article.Name
-				@article.Value("Title")
+				@article.Title
             </a>
         </article>
     }
