@@ -2,4 +2,37 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<HomePage>
 @{
 	Layout = "master.cshtml";
+
+	var articles = Model.Root()
+		.DescendantsOfType("article")
+		.OrderByDescending(articles => articles.Value<DateTime>("publishDate"))
+		.ToList();
+
+	var latestArticle = articles.FirstOrDefault();
+	var remainingArticles = articles.Skip(1).Take(5);
 }
+
+@if (latestArticle != null)
+{
+    <section>
+        <h2>Senaste nyheten</h2>
+
+        <a href="@latestArticle.Url()">
+            @latestArticle.Name
+        </a>
+    </section>
+}
+
+<section>
+    <h2>Fler nyheter</h2>
+
+    @foreach (var article in remainingArticles)
+    {
+        <article>
+            <a href="@article.Url()">
+                @article.Name
+				@article.Value("Title")
+            </a>
+        </article>
+    }
+</section>
