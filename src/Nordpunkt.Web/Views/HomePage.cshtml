@@ -2,4 +2,30 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<HomePage>
 @{
 	Layout = "master.cshtml";
+
+	var articles = Model.Root()
+		.Descendants()
+		.OfType<Article>()
+		.OrderByDescending(article => article.PublishDate)
+		.ToList();
+
+	var latestArticle = articles.FirstOrDefault();
+	var remainingArticles = articles.Skip(1).Take(5);
 }
+
+<h1>@Model.MainHeading</h1>
+
+@if (latestArticle != null)
+{
+    <partial name="Partials/Layout/Articles/_FeaturedArticle" model="latestArticle" />
+}
+else
+{
+    <h1>INGA NYHETER FÖR TILLFÄLLET</h1>
+}
+
+@foreach (var article in remainingArticles)
+{
+	<partial name="Partials/Layout/Articles/_ArticleCard" model="article" />
+}
+
