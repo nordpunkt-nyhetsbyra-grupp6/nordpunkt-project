@@ -13,27 +13,19 @@
 	var remainingArticles = articles.Skip(1).Take(5);
 }
 
+<h1>@Model.MainHeading</h1>
+
 @if (latestArticle != null)
 {
-    <section>
-        <h2>Senaste nyheten</h2>
-
-        <a href="@latestArticle.Url()">
-            @latestArticle.Name
-        </a>
-    </section>
+    <partial name="Partials/Layout/Articles/_FeaturedArticle" model="latestArticle" />
+}
+else
+{
+    <h1>INGA NYHETER FÖR TILLFÄLLET</h1>
 }
 
-<section>
-    <h2>Fler nyheter</h2>
+@foreach (var article in remainingArticles)
+{
+	<partial name="Partials/Layout/Articles/_ArticleCard" model="article" />
+}
 
-    @foreach (var article in remainingArticles)
-    {
-        <article>
-            <a href="@article.Url()">
-                @article.Name
-				@article.Title
-            </a>
-        </article>
-    }
-</section>
