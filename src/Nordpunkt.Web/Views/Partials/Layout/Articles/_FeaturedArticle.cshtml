@@ -7,9 +7,15 @@
 <section>
 
     <article>
-        <a href="@Model.Url()">
+        @if (Model.MainImage != null)
+        {
+            <img src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+        }
+
+        <div>
             <h2>@Model.Title</h2>
-        </a>
+            <h4>@Model.Ingress</h4>
+        </div>
     </article>
 
 </section>
