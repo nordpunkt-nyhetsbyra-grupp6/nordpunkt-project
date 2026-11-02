@@ -4,17 +4,17 @@
 
 }
 
-<section>
+<section class="bg-gray-50 rounded-2xl shadow-md p-4">
 
-    <article>
+    <article class="flex flex-col gap-8 xl:flex-row">
         @if (Model.MainImage != null)
         {
-            <img src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+            <img class="h-80 w-full object-cover rounded-lg xl:h-full xl:max-w-1/2" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
         }
 
-        <div>
-            <h2>@Model.Title</h2>
-            <h4>@Model.Ingress</h4>
+        <div class="flex flex-col gap-3 xl:gap-6 xl:h-max xl:w-1/2">
+            <h2 class="text-3xl md:text-4xl xl:text-6xl font-bold">@Model.Title</h2>
+            <h4 class="text-1xl md:text-2xl font-semibold">@Model.Ingress</h4>
         </div>
     </article>
 
