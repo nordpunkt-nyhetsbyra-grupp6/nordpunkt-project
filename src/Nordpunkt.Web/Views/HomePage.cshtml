@@ -13,19 +13,24 @@
 	var remainingArticles = articles.Skip(1).Take(5);
 }
 
-<h1>@Model.MainHeading</h1>
+<div class="flex flex-col gap-20">
 
-@if (latestArticle != null)
-{
-    <partial name="Partials/Layout/Articles/_FeaturedArticle" model="latestArticle" />
-}
-else
-{
-    <h1>INGA NYHETER FÖR TILLFÄLLET</h1>
-}
+	<section>
+		@if (latestArticle != null)
+		{
+			<partial name="Partials/Layout/Articles/_FeaturedArticle" model="latestArticle" />
+		}
+		else
+		{
+			<h1>INGA NYHETER FÖR TILLFÄLLET</h1>
+		}
+	</section>
 
-@foreach (var article in remainingArticles)
-{
-	<partial name="Partials/Layout/Articles/_ArticleCard" model="article" />
-}
+	<section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+		@foreach (var article in remainingArticles)
+		{
+			<partial class="h-full" name="Partials/Layout/Articles/_ArticleCard" model="article" />
+		}
+	</section>
+</div>
 
