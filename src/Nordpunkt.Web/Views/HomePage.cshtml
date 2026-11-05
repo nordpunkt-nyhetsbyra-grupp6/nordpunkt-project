@@ -8,29 +8,9 @@
 		.OfType<Article>()
 		.OrderByDescending(article => article.PublishDate)
 		.ToList();
-
-	var latestArticle = articles.FirstOrDefault();
-	var remainingArticles = articles.Skip(1).Take(5);
 }
 
-<div class="flex flex-col gap-20">
+<partial name="Partials/Layout/Articles/_ArticleSection" model="articles" />
 
-	<section>
-		@if (latestArticle != null)
-		{
-			<partial name="Partials/Layout/Articles/_FeaturedArticle" model="latestArticle" />
-		}
-		else
-		{
-			<h1>INGA NYHETER FÖR TILLFÄLLET</h1>
-		}
-	</section>
 
-	<section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-		@foreach (var article in remainingArticles)
-		{
-			<partial class="h-full" name="Partials/Layout/Articles/_ArticleCard" model="article" />
-		}
-	</section>
-</div>
 
