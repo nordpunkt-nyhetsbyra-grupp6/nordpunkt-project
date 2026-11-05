@@ -4,20 +4,16 @@
 
 }
 
-<div class="bg-gray-50 shadow-md rounded-lg p-2">
+<article class="bg-gray-50 shadow-md rounded-lg p-2"> 
+    <a class="flex align-middle gap-3 hover:underline" href="@Model.Url()">
+        @if (Model.MainImage != null)
+        {
+            <img class="h-32 w-32 object-cover rounded-xs" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name">
+        }   
 
-    <a class="hover:underline" href="@Model.Url()">
-        <article class="flex align-middle gap-3"> 
-            @if (@Model.MainImage != null)
-            {
-                <img class="h-32 w-32 object-cover rounded-xs" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name">
-            }   
-
-            <div class="flex flex-col justify-center gap-2">
-                <h4 class="text-2xl font-bold uppercase">@Model.Title</h4>
-                <p class="text-md font-semibold line-clamp-3">@Model.Ingress</p>
-            </div>
-        </article>
+        <div class="flex flex-col justify-center gap-2">
+            <h4 class="text-2xl font-bold uppercase">@Model.Title</h4>
+            <p class="text-md font-semibold line-clamp-3">@Model.Ingress</p>
+        </div>
     </a>
-
-</div>
+</article>
