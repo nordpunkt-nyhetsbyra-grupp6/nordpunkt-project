@@ -1,6 +1,12 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.CategoryPage>
-@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<CategoryPage>
 @{
 	Layout = "master.cshtml";
+
+	var categoryArticles = Model.Children()
+		.OfType<Article>()
+		.OrderByDescending(article => article.PublishDate)
+		.ToList();
 }
+
+<partial name="Partials/Layout/Articles/_ArticleSection" model="categoryArticles"/>
