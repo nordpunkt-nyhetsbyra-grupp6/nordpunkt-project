@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .current {
-    @apply bg-amber-50 border-blue-500 border-4;
+    @apply bg-amber-50;
 
     a {
         @apply text-blue-500;
