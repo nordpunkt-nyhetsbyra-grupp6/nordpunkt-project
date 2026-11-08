@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+.current {
+    @apply bg-amber-50;
+
+    a {
+        @apply text-blue-500;
+    }
+}
+

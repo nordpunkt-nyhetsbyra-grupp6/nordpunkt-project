@@ -1,11 +1,46 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Cms.Core.Services.Navigation
+
+@inject IDocumentNavigationQueryService DocumentNavigationQueryService
+@inject IPublishedContentStatusFilteringService PublishedStatusFilteringService
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+@*
+    This snippet displays a list of links of the pages immediately under the top-most page in the content tree.
+    This is the home page for a standard website.
+    It also highlights the current active page/section in the navigation with the CSS class "current".
+*@
+
 @{
+
+var selection = Model.Root().Children().Where(x => x.IsVisible(PublishedValueFallback)).ToArray();
 
 }
 
 <header>
-    <a href="/">
-        <!-- nordpunkt logo -->
-    </a>
+    <nav>
+        <div class="bg-blue-500 p-2 sm:p-6 sm:rounded-b-lg">
+            @* Replace with logo img *@
+            <a class="text-gray-50 font-bold text-3xl" href="/">NORDPUNKT.</a>
+
+            <div>@* Search button *@</div>
+        </div>
+
+        <div class="flex justify-center sm:py-6">
+            @if (selection.Length > 0)
+                {
+                    <ul class="flex gap-6">
+                        @foreach (var item in selection)
+                        {
+                            <li class="bg-blue-500 rounded-md h-12 w-24 overflow-hidden flex hover:bg-gray-50 @(item.IsAncestorOrSelf(Model) ? "current" : null)">
+                                <a class="text-gray-50 w-full h-full text-2xl flex items-center border-blue-500 transition-colors duration-300 ease-in-out border-4 justify-center font-semibold hover:text-blue-500" href="@item.Url(PublishedUrlProvider)">@item.Name</a>
+                            </li>
+                        }
+                    </ul>
+                }
+        </div>
+    </nav>
 </header>
