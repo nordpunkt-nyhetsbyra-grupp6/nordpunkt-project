@@ -22,21 +22,21 @@ var selection = Model.Root().Children().Where(x => x.IsVisible(PublishedValueFal
 
 <header>
     <nav>
-        <div class="bg-blue-500 p-2 sm:p-4 sm:rounded-b-lg">
+        <div class="bg-blue-500 p-2 sm:p-6 sm:rounded-b-lg">
             @* Replace with logo img *@
-            <a class="text-white text-3xl" href="/">NORDPUNKT.</a>
+            <a class="text-gray-50 font-bold text-3xl" href="/">NORDPUNKT.</a>
 
             <div>@* Search button *@</div>
         </div>
 
-        <div>
+        <div class="flex justify-center sm:py-6">
             @if (selection.Length > 0)
                 {
-                    <ul>
+                    <ul class="flex gap-6">
                         @foreach (var item in selection)
                         {
-                            <li class="@(item.IsAncestorOrSelf(Model) ? "current" : null)">
-                                <a href="@item.Url(PublishedUrlProvider)">@item.Name</a>
+                            <li class="bg-blue-500 rounded-md py-2 px-6 flex items-center border-4 border-blue-500 @(item.IsAncestorOrSelf(Model) ? "current" : null)">
+                                <a class="text-gray-50 text-2xl font-semibold" href="@item.Url(PublishedUrlProvider)">@item.Name</a>
                             </li>
                         }
                     </ul>
