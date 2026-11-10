@@ -32,7 +32,7 @@
                     @foreach (var category in categories)
                     {
                         var isActive = category.IsAncestorOrSelf(Model);
-                        var color = category.Value<string>("color") ?? "#2a2a35";
+                        var color = category.Value<string>("color") ?? "#1d1d21";
 
                         <li>
                             <a href="@category.Url(PublishedUrlProvider)" aria-current="@(isActive ? "page" : null)"
