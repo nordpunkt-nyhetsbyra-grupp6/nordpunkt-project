@@ -10,7 +10,7 @@
         <div class="np-cat-bar bg-(--cat)"></div>
 
         <div class="flex gap-3 p-4">
-            <div class="aspect-square w-24 shrink-0 bg-zinc-300">
+            <div class="aspect-square w-24 shrink-0 self-start bg-zinc-300">
                 @if (Model.MainImage != null)
                 {
                     <img class="size-full object-cover object-center" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
@@ -19,7 +19,7 @@
 
             <div class="flex min-w-0 flex-col gap-1">
                 <p class="font-mono text-[0.68rem] font-semibold tracking-wide text-(--cat) uppercase">@category?.Name</p>
-                <h3 class="font-serif text-xl leading-tight font-bold tracking-[-0.02em] group-hover:underline">@Model.Title</h3>
+                <h3 class="line-clamp-3 font-serif text-xl leading-tight font-bold tracking-[-0.02em] group-hover:underline">@Model.Title</h3>
                 <p class="font-mono text-[0.68rem] text-zinc-600">@Model.PublishDate.ToString("yyyy-MM-dd")</p>
             </div>
         </div>
