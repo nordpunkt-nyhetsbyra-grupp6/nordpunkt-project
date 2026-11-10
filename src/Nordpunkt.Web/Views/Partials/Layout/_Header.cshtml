@@ -13,6 +13,8 @@
         .OfType<CategoryPage>()
         .Where(x => x.IsVisible(PublishedValueFallback))
         .ToArray();
+
+    var tipPage = home.Children().OfType<TipPage>().FirstOrDefault();
 }
 
 <header class="np-header">
@@ -46,7 +48,6 @@
             </nav>
         </div>
 
-        @* TODO: länka till formulärsidan "Tipsa redaktionen" när den finns *@
-        <a href="#" class="grid size-22 shrink-0 place-items-center rounded-full bg-np-red text-xs font-bold tracking-wide whitespace-nowrap text-white uppercase hover:bg-np-ink">Tipsa oss!</a>
+        <a href="@tipPage?.Url()" class="grid size-22 shrink-0 place-items-center rounded-full bg-np-red text-xs font-bold tracking-wide whitespace-nowrap text-white uppercase hover:bg-np-ink">Tipsa oss!</a>
     </div>
 </header>
