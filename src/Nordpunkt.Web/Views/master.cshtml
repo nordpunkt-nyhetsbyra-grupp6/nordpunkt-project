@@ -2,6 +2,11 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
 	Layout = null;
+
+	// Standardsidor (Om oss, Kontakt ...) ligger under Home men är inte kategorier
+	var footerPages = Model.Root().Children()
+		.Where(page => page is not CategoryPage)
+		.ToArray();
 }
 
 <!DOCTYPE html>
@@ -24,8 +29,28 @@
         @RenderBody()
     </main>
 
-    <footer class="border-t mt-12 py-6 text-center text-sm text-gray-500">
-        &copy; @DateTime.Now.Year Nordpunkt Nyhetsbyrå
+    <footer class="mt-4 bg-np-ink text-white">
+        <div class="mx-auto flex max-w-3xl flex-col gap-6 px-4 py-8 sm:px-6">
+            <div class="flex items-center justify-between gap-3">
+                <span class="font-logo text-2xl leading-none tracking-[-0.02em]"><span class="font-extralight">nord</span><span class="font-semibold">punkt</span></span>
+                @* TODO: länka till formulärsidan "Tipsa redaktionen" när den finns *@
+                <a href="#" class="grid size-22 shrink-0 place-items-center rounded-full bg-np-red text-xs font-bold tracking-wide whitespace-nowrap text-white uppercase hover:bg-white hover:text-np-red">Tipsa oss!</a>
+            </div>
+
+            @if (footerPages.Length > 0)
+            {
+                <nav aria-label="Om Nordpunkt">
+                    <ul class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:flex sm:flex-wrap">
+                        @foreach (var page in footerPages)
+                        {
+                            <li><a href="@page.Url()" class="hover:underline">@page.Name</a></li>
+                        }
+                    </ul>
+                </nav>
+            }
+
+            <p class="font-mono text-xs text-white/70">&copy; @DateTime.Now.Year Nordpunkt Nyhetsbyrå</p>
+        </div>
     </footer>
 </body>
 </html>
