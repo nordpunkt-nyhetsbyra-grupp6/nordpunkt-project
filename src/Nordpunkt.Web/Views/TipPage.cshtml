@@ -1,0 +1,19 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Nordpunkt.Web.ViewModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<TipPage>
+@{
+	Layout = "master.cshtml";
+}
+
+<section class="np-card flex flex-col gap-6 px-4 py-8 sm:px-8">
+	<header class="flex flex-col gap-3 border-b border-np-ink/10 pb-4">
+		<h1 class="font-serif text-[2.25rem] leading-[1.04] font-bold tracking-[-0.03em]">@Model.Name</h1>
+
+		@if (!string.IsNullOrWhiteSpace(Model.TipPageIntro))
+		{
+			<p class="text-lg leading-snug">@Model.TipPageIntro</p>
+		}
+	</header>
+
+	<partial name="Partials/Forms/TipForm" model="new TipFormViewModel()" />
+</section>
