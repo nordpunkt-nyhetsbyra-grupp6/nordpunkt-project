@@ -53,6 +53,37 @@ Logga in som redaktören i ett privat webbläsarfönster:
 
 Relaterade user stories: #23 (US-11) och #25 (US-17).
 
+## Inskickade tips
+
+Tipsformuläret sparar varje tips som ett opublicerat dokument (Tip Request) under rotnoden Tip Submissions. Varken noden eller tipsen har en mall eller publiceras, så besökare kan inte nå dem.
+
+uSync exporterar inte tipsen (`ExcludeContentTypes` i `appsettings.json`). Tipsarnas uppgifter hamnar alltså inte i Git.
+
+| Grupp | Åtkomst till tipsen |
+|---|---|
+| Administrators | Läser och raderar tips. |
+| Editors | Läser tips. |
+| Writers (reportrar) | Ingen. Gruppens startnod är startsidan, så Tip Submissions syns inte. |
+
+### Begränsa reportrarnas åtkomst
+
+1. Logga in som administratör.
+2. Öppna Users → User groups → Writers.
+3. Under Documents, välj startsidan (Nyheter) som startnod.
+4. Spara.
+
+Användargrupper lagras lokalt (ej Git eller uSync). Varje gruppmedlem gör stegen i sin egen databas.
+
+### Kontrollera åtkomsten
+
+- Skicka ett testtips via Tipsa redaktionen.
+- Öppna `/tip-submissions/` i ett privat webbläsarfönster. Sidan ska ge 404.
+- Logga in som redaktör. Tipset ska synas under Tip Submissions.
+- Logga in som reporter (gruppen Writers). Tip Submissions ska inte synas.
+- Logga in som administratör och radera testtipset.
+
+Relaterad user story: #28 (US-20).
+
 ## TODO
 
 - Innehållsmodell (Document Types)
