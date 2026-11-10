@@ -5,7 +5,7 @@
 
 	// Standardsidor (Om oss, Kontakt ...) ligger under Home men är inte kategorier
 	var footerPages = Model.Root().Children()
-		.Where(page => page is not CategoryPage)
+		.Where(child => child is not CategoryPage)
 		.ToArray();
 }
 
@@ -41,9 +41,9 @@
             {
                 <nav aria-label="Om Nordpunkt">
                     <ul class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm sm:flex sm:flex-wrap">
-                        @foreach (var page in footerPages)
+                        @foreach (var footerPage in footerPages)
                         {
-                            <li><a href="@page.Url()" class="hover:underline">@page.Name</a></li>
+                            <li><a href="@footerPage.Url()" class="hover:underline">@footerPage.Name</a></li>
                         }
                     </ul>
                 </nav>
