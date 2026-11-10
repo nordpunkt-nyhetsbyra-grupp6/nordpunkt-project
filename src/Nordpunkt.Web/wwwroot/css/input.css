@@ -72,6 +72,8 @@
     & > * + * { margin-top: 1.1em; }
     & h2 { margin-top: 1.8em; font-size: 1.25rem; line-height: 1.375; font-weight: 600; }
     & a { color: var(--cat); text-decoration: underline; text-underline-offset: 3px; }
+    /* Om en redaktör råkar välja kodblock ska texten ändå se ut som brödtext */
+    & pre, & code { font: inherit; white-space: pre-wrap; }
 }
 
 @layer base {
