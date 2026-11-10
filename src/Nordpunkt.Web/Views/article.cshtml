@@ -1,7 +1,104 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Article>
 @{
-	Layout = "Master.cshtml";
+	Layout = "master.cshtml";
+
+	var home = Model.Root();
+	var category = Model.Parent();
+	var color = category.Value<string>("color") ?? "#1d1d21";
+
+	// Umbraco ändrar UpdateDate vid varje sparning. Vi visar den bara om den är tydligt senare än publiceringen.
+	var isUpdated = Model.UpdateDate > Model.PublishDate.AddMinutes(5);
+
+	var moreFromCategory = category.Children()
+		.OfType<Article>()
+		.Where(article => article.Id != Model.Id)
+		.OrderByDescending(article => article.PublishDate)
+		.Take(2)
+		.ToList();
+
+	var latestArticles = home.Descendants()
+		.OfType<Article>()
+		.Where(article => article.Id != Model.Id)
+		.OrderByDescending(article => article.PublishDate)
+		.Take(4)
+		.ToList();
 }
 
-<h1>@Model.Value("title")</h1>
+<nav aria-label="Brödsmulor" class="px-4 font-mono text-[0.7rem] font-semibold tracking-wide text-zinc-600 uppercase sm:px-0">
+	<a href="@home.Url()" class="hover:underline">@home.Name</a>
+	<span aria-hidden="true">/</span>
+	<a href="@category.Url()" class="hover:underline">@category.Name</a>
+</nav>
+
+<article class="np-card" style="--cat: @color">
+	<div class="np-cat-bar bg-(--cat)"></div>
+
+	@* Bildramen visas alltid, även när artikeln saknar bild *@
+	<figure class="relative aspect-video bg-zinc-300">
+		@if (Model.MainImage != null)
+		{
+			<img class="size-full object-cover object-center" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+		}
+
+		@if (!string.IsNullOrWhiteSpace(Model.ImageCaption))
+		{
+			<figcaption class="absolute right-4 -bottom-px flex max-w-[55%] items-center gap-2 np-tab px-3 pt-1.5 pb-[calc(0.25rem+1px)] text-sm text-zinc-600 sm:right-8">
+				<span class="size-2.5 shrink-0 rounded-full bg-np-red"></span>
+				@Model.ImageCaption
+			</figcaption>
+		}
+	</figure>
+
+	<header class="flex flex-col gap-4 px-4 pt-8 sm:px-8 sm:pt-10">
+		<div class="flex flex-col gap-3 border-y border-np-ink/10 py-4">
+			<h1 class="font-serif text-[2.25rem] leading-[1.04] font-bold tracking-[-0.03em] sm:text-[3rem]">@Model.Title</h1>
+
+			<div class="flex flex-wrap gap-x-6 gap-y-1 font-mono text-[0.7rem] font-semibold tracking-wide uppercase">
+				@if (isUpdated)
+				{
+					<span class="text-np-ink">Uppdaterad @Model.UpdateDate.ToString("yyyy-MM-dd HH:mm")</span>
+				}
+				<span class="@(isUpdated ? "text-zinc-500" : "text-np-ink")">Publicerad @Model.PublishDate.ToString("yyyy-MM-dd")</span>
+			</div>
+		</div>
+
+		<p class="text-xl leading-snug font-semibold">@Model.Ingress</p>
+	</header>
+
+	<div class="np-body max-w-[65ch] px-4 pt-5 pb-6 sm:px-8">
+		@Model.BodyText
+	</div>
+
+	@if (!string.IsNullOrWhiteSpace(Model.Author))
+	{
+		<footer class="mx-4 border-t border-np-ink/10 pt-3 pb-6 text-sm sm:mx-8">
+			Av <span class="font-semibold">@Model.Author</span>
+		</footer>
+	}
+</article>
+
+@if (moreFromCategory.Count > 0)
+{
+	<section aria-labelledby="mer" class="flex flex-col gap-3 pt-3">
+		<h2 id="mer" class="px-4 font-serif text-2xl font-bold tracking-[-0.02em] sm:px-0">Mer från @category.Name</h2>
+
+		<div class="grid gap-3 sm:grid-cols-2">
+			@foreach (var article in moreFromCategory)
+			{
+				<partial name="Partials/Layout/Articles/_ArticleCard" model="article" />
+			}
+		</div>
+	</section>
+}
+
+<section aria-labelledby="senaste" class="mt-6 flex flex-col gap-3 border-t-2 border-np-ink/15 pt-8">
+	<h2 id="senaste" class="px-4 font-serif text-2xl font-bold tracking-[-0.02em] sm:px-0">Senaste nyheterna</h2>
+
+	<div class="grid gap-3 sm:grid-cols-2">
+		@foreach (var article in latestArticles)
+		{
+			<partial name="Partials/Layout/Articles/_ArticleCard" model="article" />
+		}
+	</div>
+</section>

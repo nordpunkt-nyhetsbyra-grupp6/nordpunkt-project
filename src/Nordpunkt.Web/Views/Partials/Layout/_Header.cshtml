@@ -1,46 +1,52 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 
-@using Umbraco.Cms.Core.Models.PublishedContent
 @using Umbraco.Cms.Core.Routing
-@using Umbraco.Cms.Core.Services.Navigation
 
-@inject IDocumentNavigationQueryService DocumentNavigationQueryService
-@inject IPublishedContentStatusFilteringService PublishedStatusFilteringService
 @inject IPublishedValueFallback PublishedValueFallback
 @inject IPublishedUrlProvider PublishedUrlProvider
-@*
-    This snippet displays a list of links of the pages immediately under the top-most page in the content tree.
-    This is the home page for a standard website.
-    It also highlights the current active page/section in the navigation with the CSS class "current".
-*@
 
 @{
+    var home = Model.Root();
+    var isHome = Model.Id == home.Id;
 
-var selection = Model.Root().Children().Where(x => x.IsVisible(PublishedValueFallback)).ToArray();
-
+    var categories = home.Children()
+        .OfType<CategoryPage>()
+        .Where(x => x.IsVisible(PublishedValueFallback))
+        .ToArray();
 }
 
-<header>
-    <nav>
-        <div class="bg-blue-500 p-2 sm:p-6 sm:rounded-b-lg">
-            @* Replace with logo img *@
-            <a class="text-gray-50 font-bold text-3xl" href="/">NORDPUNKT.</a>
+<header class="np-header">
+    <div class="mx-auto flex max-w-3xl items-center gap-4 px-4 pt-4 pb-3 sm:px-6">
+        <div class="flex min-w-0 flex-1 flex-col gap-3">
+            <a href="/" class="flex items-center gap-2.5 self-start" aria-label="Nordpunkt Nyhetsbyrå, till startsidan">
+                <img src="/images/nordpunkt-logo.svg" alt="" class="h-10 w-auto" />
+                <span class="font-logo text-[1.9rem] leading-none tracking-[-0.02em]"><span class="font-extralight">nord</span><span class="font-semibold">punkt</span></span>
+            </a>
 
-            <div>@* Search button *@</div>
+            <nav aria-label="Kategorier" class="overflow-x-auto">
+                <ul class="flex gap-1.5 whitespace-nowrap font-mono text-[0.7rem] font-semibold tracking-wide uppercase">
+                    <li>
+                        <a href="@home.Url(PublishedUrlProvider)" aria-current="@(isHome ? "page" : null)"
+                           class="inline-flex items-center rounded-sm px-2.5 py-1 @(isHome ? "bg-np-ink text-white" : "border border-np-ink/20 hover:border-np-ink")">@home.Name</a>
+                    </li>
+                    @foreach (var category in categories)
+                    {
+                        var isActive = category.IsAncestorOrSelf(Model);
+                        var color = category.Value<string>("color") ?? "#1d1d21";
+
+                        <li>
+                            <a href="@category.Url(PublishedUrlProvider)" aria-current="@(isActive ? "page" : null)"
+                               class="inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1 @(isActive ? "bg-np-ink text-white" : "border border-np-ink/20 hover:border-np-ink")">
+                                <span class="size-2 rounded-full" style="background: @color"></span>
+                                @category.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
 
-        <div class="flex justify-center sm:py-6">
-            @if (selection.Length > 0)
-                {
-                    <ul class="flex gap-6">
-                        @foreach (var item in selection)
-                        {
-                            <li class="bg-blue-500 rounded-md h-12 w-24 overflow-hidden flex hover:bg-gray-50 @(item.IsAncestorOrSelf(Model) ? "current" : null)">
-                                <a class="text-gray-50 w-full h-full text-2xl flex items-center border-blue-500 transition-colors duration-300 ease-in-out border-4 justify-center font-semibold hover:text-blue-500" href="@item.Url(PublishedUrlProvider)">@item.Name</a>
-                            </li>
-                        }
-                    </ul>
-                }
-        </div>
-    </nav>
+        @* TODO: länka till formulärsidan "Tipsa redaktionen" när den finns *@
+        <a href="#" class="grid size-22 shrink-0 place-items-center rounded-full bg-np-red text-xs font-bold tracking-wide whitespace-nowrap text-white uppercase hover:bg-np-ink">Tipsa oss!</a>
+    </div>
 </header>

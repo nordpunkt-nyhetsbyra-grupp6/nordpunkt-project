@@ -1,26 +1,30 @@
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<IEnumerable<Article>>
 @{
-    var latestArticle = Model.FirstOrDefault();
-    var remainingArticles = Model.Skip(1).Take(8);
+	var featuredArticles = Model.Take(2);
+	var remainingArticles = Model.Skip(2).Take(8).ToList();
 }
 
-<section class="flex flex-col gap-20">
-	<div>
-		@if (latestArticle != null)
-		{
-			<partial name="Partials/Layout/Articles/_FeaturedArticle" model="latestArticle" />
-		}
-		else
-		{
-			<h1>INGA NYHETER FÖR TILLFÄLLET</h1>
-		}
-	</div>
+@if (!Model.Any())
+{
+	<p class="px-4 font-serif text-2xl font-bold sm:px-0">Inga nyheter för tillfället.</p>
+}
 
-	<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-		@foreach (var article in remainingArticles)
-		{
-			<partial class="h-full" name="Partials/Layout/Articles/_ArticleCard" model="article" />
-		}
-	</div>
-</section>
+@foreach (var article in featuredArticles)
+{
+	<partial name="Partials/Layout/Articles/_FeaturedArticle" model="article" />
+}
+
+@if (remainingArticles.Count > 0)
+{
+	<section aria-labelledby="senaste" class="flex flex-col gap-3 pt-2">
+		<h2 id="senaste" class="px-4 font-serif text-2xl font-bold tracking-[-0.02em] sm:px-0">Senaste publiceringar</h2>
+
+		<div class="grid gap-3 sm:grid-cols-2">
+			@foreach (var article in remainingArticles)
+			{
+				<partial name="Partials/Layout/Articles/_ArticleCard" model="article" />
+			}
+		</div>
+	</section>
+}
