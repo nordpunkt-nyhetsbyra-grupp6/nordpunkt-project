@@ -33,9 +33,11 @@ public class FormController(
 
         if (!result)
         {
+            TempData["FormError"] = "Något gick fel och ditt tips skickades inte. Försök igen om en stund.";
             return RedirectToCurrentUmbracoPage();
         }
 
+        TempData["FormSuccess"] = "Tack! Redaktionen har tagit emot ditt tips.";
         return RedirectToCurrentUmbracoPage();
     }
 }

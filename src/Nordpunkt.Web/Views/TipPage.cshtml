@@ -3,6 +3,9 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<TipPage>
 @{
 	Layout = "master.cshtml";
+
+	var success = TempData["FormSuccess"] as string;
+	var error = TempData["FormError"] as string;
 }
 
 <section class="np-card flex flex-col gap-6 px-4 py-8 sm:px-8">
@@ -17,3 +20,17 @@
 
 	<partial name="Partials/Forms/TipForm" model="new TipFormViewModel()" />
 </section>
+
+@if (success != null || error != null)
+{
+	<dialog id="form-message" class="m-auto max-w-md bg-np-card p-6 backdrop:bg-black/60">
+		@* Fokus hamnar på texten, så att skärmläsare läser upp den och knappen inte får en fokusram direkt *@
+		<p tabindex="-1" autofocus class="font-semibold outline-none @(success != null ? "text-green-700" : "text-red-700")">@(success ?? error)</p>
+
+		<form method="dialog" class="mt-4">
+			<button class="form-btn">Stäng</button>
+		</form>
+	</dialog>
+
+	<script>document.getElementById("form-message").showModal();</script>
+}
