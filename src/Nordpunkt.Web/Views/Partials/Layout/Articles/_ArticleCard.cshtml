@@ -1,20 +1,25 @@
 @using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Article>
 @{
-    var teaserText = Model.Value<string>("teaserText");
-    var summary = string.IsNullOrWhiteSpace(teaserText) ? Model.Ingress : teaserText;
+    var category = Model.Parent();
+    var color = category?.Value<string>("color") ?? "#2a2a35";
 }
 
-<article class="bg-gray-50 shadow-md rounded-lg p-2"> 
-    <a class="flex align-middle gap-3 hover:underline" href="@Model.Url()">
-        @if (Model.MainImage != null)
-        {
-            <img class="h-32 w-32 object-cover rounded-xs" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name">
-        }   
+<article class="np-card" style="--cat: @color">
+    <a class="group block" href="@Model.Url()">
+        <div class="np-cat-bar bg-(--cat)"></div>
 
-        <div class="flex flex-col justify-center gap-2">
-            <h4 class="text-2xl font-bold uppercase">@Model.Title</h4>
-            <p class="text-md font-semibold line-clamp-3">@summary</p>
+        <div class="flex gap-3 p-4">
+            @if (Model.MainImage != null)
+            {
+                <img class="aspect-square w-24 shrink-0 object-cover" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+            }
+
+            <div class="flex min-w-0 flex-col gap-1">
+                <p class="font-mono text-[0.68rem] font-semibold tracking-wide text-(--cat) uppercase">@category?.Name</p>
+                <h3 class="font-serif text-xl leading-tight font-bold tracking-[-0.02em] group-hover:underline">@Model.Title</h3>
+                <p class="font-mono text-[0.68rem] text-zinc-600">@Model.PublishDate.ToString("yyyy-MM-dd HH:mm")</p>
+            </div>
         </div>
     </a>
 </article>

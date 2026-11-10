@@ -3,18 +3,27 @@
 @{
     var teaserText = Model.Value<string>("teaserText");
     var summary = string.IsNullOrWhiteSpace(teaserText) ? Model.Ingress : teaserText;
+
+    var category = Model.Parent();
+    var color = category?.Value<string>("color") ?? "#2a2a35";
 }
 
-<article class="bg-gray-50 rounded-2xl shadow-md p-4">
-    <a class="flex flex-col gap-8 xl:flex-row hover:underline" href="@Model.Url()">
+<article class="np-card" style="--cat: @color">
+    <a class="group block" href="@Model.Url()">
+        <div class="np-cat-bar bg-(--cat)"></div>
+
         @if (Model.MainImage != null)
         {
-            <img class="h-80 w-full object-cover rounded-lg xl:h-full xl:max-w-1/2" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+            <div class="relative">
+                <img class="aspect-video w-full object-cover" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+
+                <p class="absolute -bottom-px left-4 np-tab px-3 pt-2 pb-[calc(0.25rem+1px)] font-mono text-xs font-semibold tracking-wide text-(--cat) uppercase sm:left-6">@category?.Name</p>
+            </div>
         }
 
-        <div class="flex flex-col gap-3 xl:gap-6 xl:h-max xl:w-1/2">
-            <h2 class="text-4xl md:text-5xl xl:text-7xl font-bold uppercase">@Model.Title</h2>
-            <p class="text-lg md:text-2xl font-semibold line-clamp-4">@summary</p>
+        <div class="flex flex-col gap-3 px-4 pt-6 pb-5 sm:px-6">
+            <h2 class="font-serif text-[2rem] leading-[1.05] font-bold tracking-[-0.025em] group-hover:underline sm:text-[2.6rem]">@Model.Title</h2>
+            <p class="text-lg leading-snug text-zinc-700">@summary</p>
         </div>
     </a>
 </article>
