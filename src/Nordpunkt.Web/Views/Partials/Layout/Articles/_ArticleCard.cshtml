@@ -2,7 +2,7 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Article>
 @{
     var category = Model.Parent();
-    var color = category?.Value<string>("color") ?? "#2a2a35";
+    var color = category?.Value<string>("color") ?? "#1d1d21";
 }
 
 <article class="np-card" style="--cat: @color">
@@ -10,15 +10,17 @@
         <div class="np-cat-bar bg-(--cat)"></div>
 
         <div class="flex gap-3 p-4">
-            @if (Model.MainImage != null)
-            {
-                <img class="aspect-square w-24 shrink-0 object-cover" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
-            }
+            <div class="aspect-square w-24 shrink-0 bg-zinc-300">
+                @if (Model.MainImage != null)
+                {
+                    <img class="size-full object-cover object-center" src="@Model.MainImage.MediaUrl()" alt="@Model.MainImage.Name" />
+                }
+            </div>
 
             <div class="flex min-w-0 flex-col gap-1">
                 <p class="font-mono text-[0.68rem] font-semibold tracking-wide text-(--cat) uppercase">@category?.Name</p>
                 <h3 class="font-serif text-xl leading-tight font-bold tracking-[-0.02em] group-hover:underline">@Model.Title</h3>
-                <p class="font-mono text-[0.68rem] text-zinc-600">@Model.PublishDate.ToString("yyyy-MM-dd HH:mm")</p>
+                <p class="font-mono text-[0.68rem] text-zinc-600">@Model.PublishDate.ToString("yyyy-MM-dd")</p>
             </div>
         </div>
     </a>
