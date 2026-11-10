@@ -1,4 +1,6 @@
 
+using Nordpunkt.Web.Services;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 #if DEBUG
@@ -10,6 +12,8 @@ builder.CreateUmbracoBuilder()
     .AddWebsite()
     .AddComposers()
     .Build();
+
+builder.Services.AddScoped<FormSubmissionsService>();
 
 WebApplication app = builder.Build();
 

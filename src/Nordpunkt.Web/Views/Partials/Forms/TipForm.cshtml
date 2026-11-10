@@ -1,0 +1,51 @@
+@using Nordpunkt.Web.ViewModels
+@model TipFormViewModel
+
+@using (Html.BeginUmbracoForm("HandleTipForm", "Form", FormMethod.Post, new { novalidate = "novalidate" }))
+{
+    <div class="flex flex-col gap-6">
+        <div>
+            <label asp-for="Title" class="sr-only"></label>
+            <input asp-for="Title" type="text" placeholder="@Html.DisplayNameFor(m => m.Title)" class="form-input" />
+            <span asp-validation-for="Title"></span>
+        </div>
+
+        <div>
+            <label asp-for="Description" class="sr-only"></label>
+            <textarea asp-for="Description" rows="6" placeholder="@Html.DisplayNameFor(m => m.Description)" class="form-input"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+
+        <p class="text-sm text-gray-600">
+            Kontaktuppgifterna är frivilliga. Om du inte lämnar några kan redaktionen inte återkomma med frågor om ditt tips.
+        </p>
+
+        <div>
+            <label asp-for="Name" class="sr-only"></label>
+            <input asp-for="Name" type="text" placeholder="@Html.DisplayNameFor(m => m.Name)" class="form-input" />
+        </div>
+
+        <div>
+            <label asp-for="Email" class="sr-only"></label>
+            <input asp-for="Email" type="email" placeholder="@Html.DisplayNameFor(m => m.Email)" class="form-input" />
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div>
+            <label asp-for="Phone" class="sr-only"></label>
+            <input asp-for="Phone" type="tel" placeholder="@Html.DisplayNameFor(m => m.Phone)" class="form-input" />
+        </div>
+
+        <div>
+            <div class="flex items-start gap-3">
+                <input asp-for="Consent" type="checkbox" class="mt-1 h-4 w-4" />
+                <label asp-for="Consent" class="text-sm"></label>
+            </div>
+            <span asp-validation-for="Consent"></span>
+        </div>
+
+        <div>
+            <button type="submit" class="form-btn">Skicka tips</button>
+        </div>
+    </div>
+}
