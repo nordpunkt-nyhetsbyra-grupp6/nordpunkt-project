@@ -1,10 +1,87 @@
 @import "tailwindcss";
 
-.current {
-    @apply bg-amber-50;
+@theme {
+    --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --font-sans: "Libre Franklin", ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+    --font-logo: "Onest", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+    --color-np-ink: #1d1d21;
+    --color-np-red: #8b1835;
+    --color-np-page: #e6e7ea;
+    --color-np-card: #fbfaf6;
+}
 
-    a {
-        @apply text-blue-500;
+/* Header: skarp, svag skugga och vit highlight i kanten */
+@utility np-header {
+    background: var(--color-np-card);
+    box-shadow:
+        inset 0 -1px 0 rgb(255 255 255 / 0.9),
+        0 1px 0 rgb(20 20 30 / 0.06),
+        0 2px 3px -1px rgb(20 20 30 / 0.08);
+}
+
+/* Artikelkort: tunn ram, skarp skugga och vit highlight runt om på insidan */
+@utility np-card {
+    position: relative;
+    background: var(--color-np-card);
+    border: 1px solid rgb(20 20 30 / 0.09);
+    box-shadow: 0 1px 0 rgb(20 20 30 / 0.04), 0 2px 3px -1px rgb(20 20 30 / 0.07);
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.75);
     }
 }
 
+/* Kategorilisten: 1px vit highlight överst */
+@utility np-cat-bar {
+    height: 4px;
+    margin-bottom: 2px;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
+}
+
+/* Flik med rundade hörn upptill och inåtvända hörn nertill */
+@utility np-tab {
+    --r: 0.625rem;
+    background: var(--color-np-card);
+    border-radius: var(--r) var(--r) 0 0;
+    &::before, &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        width: var(--r);
+        height: var(--r);
+    }
+    &::before {
+        left: calc(var(--r) * -1);
+        background: radial-gradient(circle at 0 0, transparent calc(var(--r) - 0.5px), var(--color-np-card) var(--r));
+    }
+    &::after {
+        right: calc(var(--r) * -1);
+        background: radial-gradient(circle at 100% 0, transparent calc(var(--r) - 0.5px), var(--color-np-card) var(--r));
+    }
+}
+
+/* BodyText är rich text från Umbraco, så vi stylar elementen inuti */
+@utility np-body {
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    & > * + * { margin-top: 1.1em; }
+    & h2 { margin-top: 1.8em; font-size: 1.25rem; line-height: 1.375; font-weight: 600; }
+    & a { color: var(--cat); text-decoration: underline; text-underline-offset: 3px; }
+    /* Om en redaktör råkar välja kodblock ska texten ändå se ut som brödtext */
+    & pre, & code { font: inherit; white-space: pre-wrap; }
+}
+
+@layer base {
+    body {
+        background: var(--color-np-page);
+        color: var(--color-np-ink);
+        font-family: var(--font-sans);
+    }
+    h1, h2, h3 { text-wrap: balance; }
+    a:focus-visible { outline: 3px solid var(--color-np-ink); outline-offset: 2px; }
+}
