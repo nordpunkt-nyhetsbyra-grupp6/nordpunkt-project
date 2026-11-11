@@ -97,6 +97,14 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		public virtual global::System.DateTime PublishDate => this.Value<global::System.DateTime>(_publishedValueFallback, "publishDate");
 
 		///<summary>
+		/// Pufftext: Kort text för artikelkort på startsidan och kategorisidor. Lämna tomt för att använda ingressen
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "18.2.1+e573de0")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("teaserText")]
+		public virtual string TeaserText => this.Value<string>(_publishedValueFallback, "teaserText");
+
+		///<summary>
 		/// Rubrik
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "18.2.1+e573de0")]
