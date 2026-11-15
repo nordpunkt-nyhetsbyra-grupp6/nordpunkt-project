@@ -26,6 +26,13 @@ public class FormController(
     [HttpPost]
     public IActionResult HandleTipForm(TipFormViewModel model)
     {
+        if (!string.IsNullOrEmpty(model.Website))
+        {
+            // sparar inte om de är en bot som skickar in tips.
+            TempData["FormSuccess"] = "Tack! Redaktionen har tagit emot ditt tips.";
+            return RedirectToCurrentUmbracoPage();
+        }
+
         if (!ModelState.IsValid)
             return CurrentUmbracoPage();
 

@@ -26,4 +26,7 @@ public class TipFormViewModel
     [Range(typeof(bool), "true", "true", ErrorMessage = "Du måste godkänna hur vi behandlar dina personuppgifter.")]
     [Display(Name = "Jag godkänner att Nordpunkt behandlar mina uppgifter för att hantera tipset.")]
     public bool Consent { get; set; }
+
+    // "honeypot" ett gömt fält som inte ska fyllas i av riktiga användare, men som kan fyllas i av spam-botar.
+    public string? Website { get; set; }
 }

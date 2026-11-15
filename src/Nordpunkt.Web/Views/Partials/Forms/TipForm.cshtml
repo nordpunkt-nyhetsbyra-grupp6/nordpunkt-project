@@ -44,6 +44,12 @@
             <span asp-validation-for="Consent"></span>
         </div>
 
+        @* Honeypot: hidden from real users, bots often fill it in *@
+        <div aria-hidden="true" style="position:absolute;left:-9999px">
+            <label asp-for="Website">Lämna det här fältet tomt</label>
+            <input asp-for="Website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
         <div>
             <button type="submit" class="form-btn">Skicka tips</button>
         </div>
